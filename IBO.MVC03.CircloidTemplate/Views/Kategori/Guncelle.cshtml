@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Kategori Guncelle";
+}
+
+@model Categories
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <h1>
+                    <span aria-hidden="true" class="icon icon-grids"></span>
+                    <span class="main-text">
+                        Kategori Düzenle
+                    </span>
+                </h1>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="block">
+                    <div class="block-heading">
+                        <div class="main-text h2">
+                            Düzenle
+                        </div>
+                        <div class="block-controls">
+
+                            <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                        </div>
+                    </div>
+                    <div class="block-content-outer">
+                        <div class="block-content-inner">
+                          
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Kategori Adı</th>
+                                            <th>Açıklama</th>
+
+                                            <th>Sağlık</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td> <input class="catname" type="text" style="width:200px;"  value="@Model.CategoryName" /></td>
+                                            <td><input class="desc" type="text" style="width:500px;"  value="@Model.Description" /></td>
+                                           
+                                            <td>
+                                                <span class="progress progress-striped active">
+                                                    <span class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+                                                        <span class="sr-only">90% Complete (success)</span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div class="block-controls">
+                                    
+
+                                    <button id="sas"   data-idgetir="@Model.CategoryId"  type="button"  class="btn btn-success"> Güncelle  </button>
+
+                                </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+@section scripts{
+    <script>
+        $("#sas").click(function () {
+            var id = $(this).data("idgetir");
+
+
+
+            var kategoriname = $(".catname").val();
+            var aciklama = $(".desc").val();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Guncelle","Kategori")',
+                data: { id: id, cat: kategoriname, acik: aciklama },
+                success: function (durum) {
+                    if (durum == "basarili") {
+                        window.location.replace("/Kategori/Index");
+                    }
+
+                }
+            });
+
+        });
+    </script>
+    
+    }
+    
+

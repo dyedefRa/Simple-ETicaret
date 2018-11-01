@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Urunler";
+}
+
+@model List<Products>
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Ürünler
+                </div>
+
+                <div class="block-controls">
+
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                    <a href="/Urun/UrunEkle" class="btn btn-success rounded" role="button">Yeni Ürün</a>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Ürün Adı</th>
+                                <th>Tedarikçi</th>
+                                <th>Kategori</th>
+                                <th>Birimdeki Miktar</th>
+                                <th>Stok</th>
+                                <th>Yeni Satış</th>
+                                <th>En az Yeniden Satış Miktarı</th>
+                                <th>Sonlandı</th>
+                                <th>Sil</th>
+                                <th>Sepete Ekle</th>
+                                <th>Ürün detayı</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (Products pro in Model)
+                            {
+                            <tr>
+                                <td><span class="label label-info">@pro.ProductName</span>  </td>
+                                @if (pro.Supplier == null)
+    {
+                            <td>(Gizli Firma)</td>
+}
+else
+{
+                            <td>@pro.Supplier.CompanyName</td>
+}
+                                @if (pro.Category == null)
+    {
+                            <td>---</td>
+}
+else
+{
+                            <td>@pro.Category.CategoryName</td>
+}
+
+
+                                <td> <span class="label label-primary">@pro.UnitPrice</span></td>
+                                <td>@pro.UnitsInStock</td>
+                                <td>@pro.UnitsOnOrder</td>
+                                <td> <span class="label label-warning">@pro.QuantityPerUnit</span></td>
+                                @if ((Boolean)pro.Discontinued)
+    {
+                            <td>
+                                <span class="label label-danger">Tükendi</span>
+                            </td>
+}
+else
+{
+                            <td><span class="label label-success">Stokta Var</span></td>
+}
+
+
+                                <td> <a href="/Urun/Sil/@pro.ProductId"  class="btn btn-danger ">Sil</a> </td>
+                                <td> <a href="#" class="btn btn-success sepeteAt " data-uid="@pro.ProductId">Sepete At</a> </td>
+                                <td> <a href="/Urun/UrunDetay?uid=@pro.ProductId&un=@pro.ProductName" class="btn btn-primary">Detaylar</a> </td>
+                            </tr>
+
+                            }
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(".sepeteAt").click(function () {
+            var urunID = $(this).data("uid");
+            $.ajax({
+                type: "POST",
+                url: "/Urun/Sepetim/" + urunID,
+                success: function (durum) {
+                    if (durum == "basarili") {
+                        alert("Ürün sepete atıldı.");
+                        window.location.replace("/Urun/Index");
+                    }
+                    else {
+                        alert("Hata!");
+                    }
+                }
+             
+            });
+        });
+
+    </script>
+    }

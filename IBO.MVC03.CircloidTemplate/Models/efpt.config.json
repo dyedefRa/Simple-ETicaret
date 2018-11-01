@@ -1,0 +1,1 @@
+﻿{"ContextClassName":"NORTHWNDContext","DefaultDacpacSchema":null,"IdReplace":false,"IncludeConnectionString":true,"OutputPath":"","ProjectRootNamespace":"IBO.MVC03.CircloidTemplate","SelectedToBeGenerated":0,"Tables":["dbo.Categories","dbo.Products","dbo.Suppliers"],"UseDatabaseNames":false,"UseFluentApiOnly":true,"UseHandleBars":false,"UseInflector":false}

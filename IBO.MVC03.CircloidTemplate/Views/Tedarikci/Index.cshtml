@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Tedarikçi Listesi";
+}
+
+@model List<Suppliers>
+@section head{
+
+   
+}
+
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2"> Tedarikçiler</div>
+
+                <div class="block-controls">
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                    <a href="/Tedarikci/Ekle" class="btn btn-success rounded" role="button">Yeni Tedarikçi</a>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <table style="overflow-x:scroll" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Şirket Adı</th>
+                                <th>Müşteri Adı</th>
+                                <th>Müşteri Ünvanı</th>
+                                <th>Adres</th>
+                                <th>Şehir</th>
+                                <th>Bölge</th>
+                                <th>Posta Kodu</th>
+                                <th>Ülke</th>
+                                <th>Telefon</th>
+                                <th>Faks</th>
+
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Suppliers sup in Model)
+                            {
+                                <tr>
+                                    <td>@sup.CompanyName</td>
+                                    <td>@sup.ContactName</td>
+                                    <td>@sup.ContactTitle</td>
+                                    <td>@sup.Address</td>
+                                    <td>@sup.City</td>
+                                    <td>@sup.Region</td>
+                                    <td>@sup.PostalCode</td>
+                                    <td>@sup.Country</td>
+                                    <td>@sup.Phone</td>
+                                    <td>@sup.Fax</td>
+
+
+
+                                    <td> <a class="btn btn-primary" href="/Tedarikci/Guncelle/@sup.SupplierId">Guncelle</a></td>
+                                    <td>
+                                        <button  class="btn btn-danger modalAc" data-toggle="modal" data-sirketadi="@sup.CompanyName" data-id="@sup.SupplierId"  data-target="#small-modal">
+                                            Sil
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section body{
+    <div class="modal fade small-modal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" data-border-top="multi">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="small-modal-label">Silmek istediğinize emin misin?</h4>
+                </div>
+                <div class="modal-body">
+                    @*BURASI*@
+                    <p class="sirket_adi"></p>
+                    <p style="color:red;" class="ajax_error"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-danger sSil">Sil</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+}
+
+@section scripts{
+ 
+    <script>
+        $(".modalAc").click(function () {
+
+            var sirketadim = $(this).data("sirketadi");
+            $(".modal-body>p.sirket_adi").html("'" + sirketadim + "' adlı şirketi silmek istediğinize emin misiniz?");
+            var id = $(this).data("id");
+           
+            $(".sSil").data("idd", id);
+            $(".sSil").data("sirketad", sirketadim);
+           
+        });
+        $(".sSil").click(function () {
+            var id = $(this).data("idd");
+            var sirketim = $(this).data("sirketad");
+            $.ajax({
+                type:"POST",  
+                url: "/Tedarikci/Sil/" + id,
+                success: function (deger) {
+                    if (deger == "basarili") {
+                        window.location.replace("/Tedarikci/Index");
+                    }
+                    else {
+                        $(".modal-body>.ajax_error").html("'"+sirketim +"' adlı şirket silinirken hata oluştu.Lütfen daha sonra tekrar deneyiniz..");
+                    }
+
+                }
+           
+            });
+        });
+    </script>
+
+}
+

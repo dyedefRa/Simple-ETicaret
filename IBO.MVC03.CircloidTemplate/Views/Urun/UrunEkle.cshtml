@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Ürün Ekle";
+}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Ürün Ekle
+                </div>
+                <div class="block-controls">
+                    <a href="/Urun/Index"><span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span></a>
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form action="/Urun/UrunEkle" method="post" role="form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Ürün Adı</label>
+                            <input name="ProductName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Ürün Adı Giriniz">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Fiyat</label>
+                            <input name="UnitPrice" type="number" class="form-control" id="exampleInputPassword1" placeholder="Fiyat Giriniz">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Stok</label>
+                            <input name="UnitsInStock" type="number" class="form-control" id="exampleInputPassword1" placeholder="Stogu Giriniz">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Kategori</label>
+                            <select class="form-control" name="CategoryId">
+                                @foreach (Categories kategori in ViewBag.Categories)
+            {
+
+                    <option value="@kategori.CategoryId">@kategori.CategoryName</option>
+
+}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Tedarikçi</label>
+                            <select class="form-control" name="SupplierId">
+                                @foreach (Suppliers sup in ViewBag.Suppliers)
+            {
+                    <option value="@sup.SupplierId">@sup.CompanyName</option>
+}
+                            </select>
+                        </div>
+                      
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
